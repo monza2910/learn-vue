@@ -1,21 +1,60 @@
 <template>
-  <Header />
-  <Content />
-  <h1 class="text-danger">Hy GUYS</h1>
-  <Footer />
+  <div class="container">
+    <h1 class="text-primary">Helo World</h1>
+    <button class="btn btn-primary" @click="heloworld()">
+      Click saya
+    </button>
+    <div v-if="show">
+      <ul v-for="post in posts" :key="post.id">
+        <li>{{ post.name}}</li>
+      </ul>
+    </div>
+    <div v-else>
+      Mantap Datanya Kosong
+    </div>    
+    <button class="btn btn-danger" @click="toggleChange()">
+      Show/Hide
+    </button>
+  </div>
 </template>
 
 <script>
-import Header from "./components/Header.vue";
-import Content from "./components/Content.vue";
-import Footer from "./components/Footer.vue";
-
+import { ref } from "vue";
 export default {
   name          : "App",
-  components    : {
-    Header,
-    Content,
-    Footer
+  components    : {},
+  setup(){
+    const show  = ref(true);
+
+    const posts = [
+      {
+        id : 1,
+        name : "belajar laravel"
+      },
+      {
+        id : 2,
+        name : "belajar vue"
+      },
+      {
+        id : 3,
+        name : "belajar livewire"
+      },
+    ];
+
+    const heloworld = () => {
+      alert("MONZA NI BOS!!")
+    };
+
+    const toggleChange= () =>{
+      show.value = !show.value;
+    }
+
+    return {
+      heloworld,
+      posts,
+      show,
+      toggleChange 
+    }
   }
 };
 </script>
@@ -27,7 +66,4 @@ export default {
     margin: 0;
   }
 
-  .text-danger{
-    color: blue;
-  }
 </style>

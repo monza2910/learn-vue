@@ -1,5 +1,7 @@
 <template>
-    <div>Ini Adalah Content</div>
+    <div>
+        <h2>Ini Adalah Content</h2> 
+    </div>
 </template>
 
 <script>
