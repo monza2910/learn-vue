@@ -1,13 +1,18 @@
 <template>
   <div class="container">
     <h1 class="text-primary">Helo World</h1>
-    <button class="btn btn-primary" @click="heloworld()">
+    <!-- <button class="btn btn-primary" @click="heloworld()">
       Click saya
-    </button>
+    </button> -->
     <div v-if="show">
-      <ul v-for="post in posts" :key="post.id">
-        <li>{{ post.name}}</li>
-      </ul>
+      <div class="row" >
+        <Card 
+        v-for="post in posts" 
+        :key="post.id" 
+        :post="post"
+        title="sasasa"
+        />
+      </div>
     </div>
     <div v-else>
       Mantap Datanya Kosong
@@ -20,9 +25,10 @@
 
 <script>
 import { ref } from "vue";
+import Card from "./components/Card.vue";
 export default {
   name          : "App",
-  components    : {},
+  components    : {Card},
   setup(){
     const show  = ref(true);
 
