@@ -4,48 +4,57 @@
     <!-- <button class="btn btn-primary" @click="heloworld()">
       Click saya
     </button> -->
-    <div v-if="show">
-      <div class="row" >
-        <Card 
-        v-for="post in posts" 
-        :key="post.id" 
-        :post="post"
-        title="sasasa"
-        />
-      </div>
+    <div v-if="error">error : {{error}}</div>
+    <div v-if="loading">
+      Loading...
     </div>
-    <div v-else>
-      Mantap Datanya Kosong
-    </div>    
-    <button class="btn btn-danger" @click="toggleChange()">
-      Show/Hide
-    </button>
+    <div v-if="!loading">
+      <div v-if="show">
+        <div class="row" >
+          <Card 
+          v-for="post in posts" 
+          :key="post.id" 
+          :post="post"  
+          />
+        </div>
+      </div>
+      <div v-else>
+        Mantap Datanya Kosong
+      </div>    
+      <button class="btn btn-danger" @click="toggleChange()">
+        Show/Hide
+      </button>
+    </div>
   </div>
 </template>
 
 <script>
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import Card from "./components/Card.vue";
+import axios from "axios";
+
 export default {
   name          : "App",
   components    : {Card},
   setup(){
-    const show  = ref(true);
+    const show      = ref(true);
+    const posts     = ref([]);
+    const loading   = ref([]);
+    const error     = ref("");
+    
+    onMounted(async ()  =>{
+      try {
+        loading.value   = true
+        const response  = await axios.get("https://jsonplaceholder.typicode.com/posts")
 
-    const posts = [
-      {
-        id : 1,
-        name : "belajar laravel"
-      },
-      {
-        id : 2,
-        name : "belajar vue"
-      },
-      {
-        id : 3,
-        name : "belajar livewire"
-      },
-    ];
+        posts.value     = response.data;
+        loading.value   = false
+      } catch (err) {
+        error.value     = "Internet Tidak Terhubung"
+        loading.value   = false
+      }
+     
+    })
 
     const heloworld = () => {
       alert("MONZA NI BOS!!")
@@ -59,7 +68,9 @@ export default {
       heloworld,
       posts,
       show,
-      toggleChange 
+      toggleChange ,
+      loading,
+      error
     }
   }
 };
