@@ -3,7 +3,7 @@
         <div class="card">
             <div class="card-body">
                 <h4>{{post.title}}</h4>
-                <p>{{post.body}}</p>
+                <p>{{post.content}}</p>
             </div>
         </div>
     </div>

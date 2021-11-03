@@ -1,43 +1,37 @@
 <template>
   <div class="container">
-    <h1 class="text-primary">Helo World</h1>
-    <!-- <button class="btn btn-primary" @click="heloworld()">
-      Click saya
-    </button> -->
-    <div v-if="error">error : {{error}}</div>
-    <div v-if="loading">
+    <table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">First</th>
+      <th scope="col">Last</th>
+      <th scope="col">Handle</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr v-if="loading">
       Loading...
-    </div>
-    <div v-if="!loading">
-      <div v-if="show">
-        <div class="row" >
-          <Card 
-          v-for="post in posts" 
-          :key="post.id" 
-          :post="post"  
-          />
-        </div>
-      </div>
-      <div v-else>
-        Mantap Datanya Kosong
-      </div>    
-      <button class="btn btn-danger" @click="toggleChange()">
-        Show/Hide
-      </button>
-    </div>
+    </tr>
+    <tr v-else v-for="(post, index) in posts" :key="post.id">
+      <th scope="col">{{index+1}}</th>
+      <th scope="col">{{post.title}}</th>
+      <th scope="col">{{post.content}}</th>
+      <th scope="col">{{post.image}}</th>
+    </tr>
+  </tbody>
+</table>
   </div>
 </template>
 
 <script>
 import { onMounted, ref } from "vue";
-import Card from "./components/Card.vue";
 import axios from "axios";
 
 export default {
   name          : "App",
-  components    : {Card},
-  setup(){
-    const show      = ref(true);
+  components    : {},
+  setup(){  
     const posts     = ref([]);
     const loading   = ref([]);
     const error     = ref("");
@@ -45,9 +39,9 @@ export default {
     onMounted(async ()  =>{
       try {
         loading.value   = true
-        const response  = await axios.get("https://jsonplaceholder.typicode.com/posts")
+        const response  = await axios.get("http://127.0.0.1:8000/api/post")
 
-        posts.value     = response.data;
+        posts.value     = response.data.data;
         loading.value   = false
       } catch (err) {
         error.value     = "Internet Tidak Terhubung"
@@ -56,19 +50,8 @@ export default {
      
     })
 
-    const heloworld = () => {
-      alert("MONZA NI BOS!!")
-    };
-
-    const toggleChange= () =>{
-      show.value = !show.value;
-    }
-
     return {
-      heloworld,
       posts,
-      show,
-      toggleChange ,
       loading,
       error
     }
